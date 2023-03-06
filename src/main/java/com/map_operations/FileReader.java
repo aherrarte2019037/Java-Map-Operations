@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.javatuples.Pair;
+
 public class FileReader {
     private static FileReader instance;
     private String path = "./src/main/java/com/map_operations/resources/";
@@ -21,20 +23,25 @@ public class FileReader {
     }
 
     public ArrayList<String> readData() {
-        final ArrayList<String> expressions = new ArrayList<String>();
+        final ArrayList<String> data = new ArrayList<String>();
 
         try {
             File file = new File(path);
             Scanner sc = new Scanner(file);
 
             while (sc.hasNextLine())
-                expressions.add(sc.nextLine().trim().replace(" ", ""));
+                data.add(sc.nextLine().trim());
 
             sc.close();
-            return expressions;
+            return data;
 
         } catch (Exception e) {
-            return expressions;
+            return data;
         }
+    }
+
+    public Pair<String, String> separateRawItem(String rawItem) {
+        String[] item = rawItem.split("\\|");
+        return Pair.with(item[0], item[1]);
     }
 }
